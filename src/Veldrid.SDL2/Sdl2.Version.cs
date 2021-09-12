@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid.Sdl2
 {
@@ -17,3 +18,4 @@ namespace Veldrid.Sdl2
         public byte patch;
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Veldrid.Sdl2
 {
     /// <summary>
@@ -279,3 +279,4 @@ namespace Veldrid.Sdl2
         public static byte SDL_GameControllerGetButton(SDL_GameController gamecontroller, SDL_GameControllerButton button) => s_sdl_gameControllerGetButton(gamecontroller, button);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -12,19 +12,30 @@ namespace Veldrid.Sdl2
         /// The native SDL_Cursor pointer.
         /// </summary>
         public readonly IntPtr NativePointer;
-
+        /// <summary>
+        /// Create Currsor
+        /// </summary>
+        /// <param name="pointer"></param>
         public SDL_Cursor(IntPtr pointer)
         {
             NativePointer = pointer;
         }
-
+        /// <summary>
+        /// cast from Sdl2Cursor handle
+        /// </summary>
+        /// <param name="Sdl2Cursor"></param>
         public static implicit operator IntPtr(SDL_Cursor Sdl2Cursor) => Sdl2Cursor.NativePointer;
+        /// <summary>
+        /// cast to Sdl2Cursor handle
+        /// </summary>
+        /// <param name="pointer"></param>
         public static implicit operator SDL_Cursor(IntPtr pointer) => new SDL_Cursor(pointer);
     }
 
     /// <summary>
     /// Cursor types for SDL_CreateSystemCursor().
     /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public enum SDL_SystemCursor
     {
         Arrow,
@@ -40,11 +51,21 @@ namespace Veldrid.Sdl2
         No,
         Hand
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
     public static unsafe partial class Sdl2Native
     {
+        /// <summary>
+        ///  SDL_QUERY -1
+        /// </summary>
         public const int SDL_QUERY = -1;
+        /// <summary>
+        ///  SDL_DISABLE 0
+        /// </summary>
         public const int SDL_DISABLE = 0;
+        /// <summary>
+        ///  SDL_DISABLE 1
+        /// </summary>
         public const int SDL_ENABLE = 1;
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

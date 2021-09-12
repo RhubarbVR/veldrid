@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid.Sdl2
 {
@@ -80,3 +81,4 @@ namespace Veldrid.Sdl2
         public static void SDL_free(void* ptr) { s_sdl_free(ptr); }
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid.Sdl2
 {
@@ -42,3 +43,4 @@ namespace Veldrid.Sdl2
         public static int SDL_JoystickInstanceID(SDL_Joystick joystick) => s_sdl_joystickInstanceID(joystick);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

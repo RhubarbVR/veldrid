@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid.Sdl2
 {
@@ -14,6 +15,16 @@ namespace Veldrid.Sdl2
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate SDL_Window SDL_CreateWindow_t(byte* title, int x, int y, int w, int h, SDL_WindowFlags flags);
         private static SDL_CreateWindow_t s_sdl_createWindow = LoadFunction<SDL_CreateWindow_t>("SDL_CreateWindow");
+        /// <summary>
+        /// Create SDL window
+        /// </summary>
+        /// <param name="title">Starting title</param>
+        /// <param name="x">Starting Postion X</param>
+        /// <param name="y">Starting Postion Y</param>
+        /// <param name="w">Starting Postion width</param>
+        /// <param name="h">Starting Postion hight</param>
+        /// <param name="flags">Starting flags</param>
+        /// <returns>created Window</returns>
         public static SDL_Window SDL_CreateWindow(string title, int x, int y, int w, int h, SDL_WindowFlags flags)
         {
             byte* utf8Bytes;
@@ -302,3 +313,4 @@ namespace Veldrid.Sdl2
         public void* driverdata;
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid.Sdl2
 {
@@ -589,3 +590,4 @@ namespace Veldrid.Sdl2
         public uint windowID;
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

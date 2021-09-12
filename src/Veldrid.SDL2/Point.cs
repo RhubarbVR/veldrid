@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Veldrid
 {
@@ -26,3 +27,4 @@ namespace Veldrid
         private string DebuggerDisplayString => ToString();
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

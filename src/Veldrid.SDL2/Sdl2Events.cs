@@ -4,10 +4,17 @@ using static Veldrid.Sdl2.Sdl2Native;
 
 namespace Veldrid.Sdl2
 {
+    /// <summary>
+    /// Event handler
+    /// </summary>
     public static class Sdl2Events
     {
         private static readonly object s_lock = new object();
         private static readonly List<SDLEventHandler> s_processors = new List<SDLEventHandler>();
+        /// <summary>
+        /// Start Subscribe to events
+        /// </summary>
+        /// <param name="processor"></param>
         public static void Subscribe(SDLEventHandler processor)
         {
             lock (s_lock)
@@ -15,7 +22,10 @@ namespace Veldrid.Sdl2
                 s_processors.Add(processor);
             }
         }
-
+        /// <summary>
+        /// Stop Subscribing to events
+        /// </summary>
+        /// <param name="processor"></param>
         public static void Unsubscribe(SDLEventHandler processor)
         {
             lock (s_lock)

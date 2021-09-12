@@ -13,6 +13,9 @@ using Veldrid;
 
 namespace Veldrid.Sdl2
 {
+    /// <summary>
+    /// Unversal Window
+    /// </summary>
     public unsafe class Sdl2Window
     {
         private readonly List<SDL_Event> _events = new List<SDL_Event>();
@@ -28,7 +31,13 @@ namespace Veldrid.Sdl2
         private readonly bool _threadedProcessing;
 
         private bool _shouldClose;
+        /// <summary>
+        /// Max Poll Rate
+        /// </summary>
         public bool LimitPollRate { get; set; }
+        /// <summary>
+        /// Time between each poll
+        /// </summary>
         public float PollIntervalInMs { get; set; }
 
         // Current input states
@@ -44,7 +53,16 @@ namespace Veldrid.Sdl2
         private bool _newWindowTitleReceived;
         private bool _firstMouseEvent = true;
         private Func<bool> _closeRequestedHandler;
-
+        /// <summary>
+        /// Create Window
+        /// </summary>
+        /// <param name="title">The starting title of the window</param>
+        /// <param name="x">The stating x position</param>
+        /// <param name="y">The stating y position</param>
+        /// <param name="width">The stating width of the window</param>
+        /// <param name="height">The stating height of the window</param>
+        /// <param name="flags">The flags for window that is being created <see cref="SDL_WindowFlags"/></param>
+        /// <param name="threadedProcessing">Create window on another thread</param>
         public Sdl2Window(string title, int x, int y, int width, int height, SDL_WindowFlags flags, bool threadedProcessing)
         {
             SDL_SetHint("SDL_MOUSE_FOCUS_CLICKTHROUGH", "1");
@@ -76,7 +94,11 @@ namespace Veldrid.Sdl2
                 PostWindowCreated(flags);
             }
         }
-
+        /// <summary>
+        /// Create Window from existing windowHandle
+        /// </summary>
+        /// <param name="windowHandle">Handle to existing window</param>
+        /// <param name="threadedProcessing">Create window on another thread</param>
         public Sdl2Window(IntPtr windowHandle, bool threadedProcessing)
         {
             _threadedProcessing = threadedProcessing;
@@ -103,15 +125,29 @@ namespace Veldrid.Sdl2
                 PostWindowCreated(0);
             }
         }
-
+        /// <summary>
+        /// Current window X position
+        /// </summary>
         public int X { get => _cachedPosition.Value.X; set => SetWindowPosition(value, Y); }
+        /// <summary>
+        /// Current window Y position
+        /// </summary>
         public int Y { get => _cachedPosition.Value.Y; set => SetWindowPosition(X, value); }
-
+        /// <summary>
+        /// Current window Width position
+        /// </summary>
         public int Width { get => GetWindowSize().X; set => SetWindowSize(value, Height); }
+        /// <summary>
+        /// Current window Height position
+        /// </summary>
         public int Height { get => GetWindowSize().Y; set => SetWindowSize(Width, value); }
-
+        /// <summary>
+        /// Current window Underlying window Handle
+        /// </summary>
         public IntPtr Handle => GetUnderlyingWindowHandle();
-
+        /// <summary>
+        /// Current window Display title
+        /// </summary>
         public string Title { get => _cachedWindowTitle; set => SetWindowTitle(value); }
 
         private void SetWindowTitle(string value)
@@ -119,7 +155,9 @@ namespace Veldrid.Sdl2
             _cachedWindowTitle = value;
             _newWindowTitleReceived = true;
         }
-
+        /// <summary>
+        /// current WindowState <see cref="WindowState"/>
+        /// </summary>
         public WindowState WindowState
         {
             get
@@ -177,8 +215,14 @@ namespace Veldrid.Sdl2
             }
         }
 
+        /// <summary>
+        /// If window Exists
+        /// </summary>
         public bool Exists => _exists;
 
+        /// <summary>
+        /// If window has <see cref="SDL_WindowFlags.Shown"/>
+        /// </summary>
         public bool Visible
         {
             get => (SDL_GetWindowFlags(_window) & SDL_WindowFlags.Shown) != 0;
@@ -194,11 +238,17 @@ namespace Veldrid.Sdl2
                 }
             }
         }
-
+        /// <summary>
+        /// Scale Factor of the window
+        /// </summary>
         public Vector2 ScaleFactor => Vector2.One;
-
+        /// <summary>
+        /// The bonds of window on the screen
+        /// </summary>
         public Rectangle Bounds => new Rectangle(_cachedPosition, GetWindowSize());
-
+        /// <summary>
+        /// If Cursor can be seen
+        /// </summary>
         public bool CursorVisible
         {
             get
@@ -211,7 +261,9 @@ namespace Veldrid.Sdl2
                 SDL_ShowCursor(toggle);
             }
         }
-
+        /// <summary>
+        /// The Opacity of the window
+        /// </summary>
         public float Opacity
         {
             get
@@ -228,49 +280,123 @@ namespace Veldrid.Sdl2
                 SDL_SetWindowOpacity(_window, value);
             }
         }
-
+        /// <summary>
+        /// If the window curently Focused
+        /// </summary>
         public bool Focused => (SDL_GetWindowFlags(_window) & SDL_WindowFlags.InputFocus) != 0;
-
+        /// <summary>
+        /// If the window can be scaled
+        /// </summary>
         public bool Resizable
         {
             get => (SDL_GetWindowFlags(_window) & SDL_WindowFlags.Resizable) != 0;
             set => SDL_SetWindowResizable(_window, value ? 1u : 0u);
         }
-
+        /// <summary>
+        /// If the Border can be seen
+        /// </summary>
         public bool BorderVisible
         {
             get => (SDL_GetWindowFlags(_window) & SDL_WindowFlags.Borderless) == 0;
             set => SDL_SetWindowBordered(_window, value ? 1u : 0u);
         }
-
+        /// <summary>
+        /// Handle to the window
+        /// </summary>
         public IntPtr SdlWindowHandle => _window;
-
+        /// <summary>
+        /// Called when window has been Resized
+        /// </summary>
         public event Action Resized;
+        /// <summary>
+        /// Called when window has been told to close
+        /// </summary>
         public event Action Closing;
+        /// <summary>
+        /// Called when window has been closed
+        /// </summary>
         public event Action Closed;
+        /// <summary>
+        /// Called when window has lost focus
+        /// </summary>
         public event Action FocusLost;
+        /// <summary>
+        /// Called when window has regained focus
+        /// </summary>
         public event Action FocusGained;
+        /// <summary>
+        /// Called when window has been shown
+        /// </summary>
         public event Action Shown;
+        /// <summary>
+        /// Called when window has been hidden
+        /// </summary>
         public event Action Hidden;
+        /// <summary>
+        /// Called when mouse has went over the window
+        /// </summary>
         public event Action MouseEntered;
+        /// <summary>
+        /// Called when mouse has left being over the window
+        /// </summary>
         public event Action MouseLeft;
+        /// <summary>
+        /// Called when window has been exposed
+        /// </summary>
         public event Action Exposed;
+        /// <summary>
+        /// Called when window has been moved
+        /// </summary>
         public event Action<Point> Moved;
+        /// <summary>
+        /// Called when mouse weel has been moved has been moved
+        /// </summary>
         public event Action<MouseWheelEventArgs> MouseWheel;
+        /// <summary>
+        /// Called when mouse has been moved has been moved
+        /// </summary>
         public event Action<MouseMoveEventArgs> MouseMove;
+        /// <summary>
+        /// Called when mouse button has been clicked
+        /// </summary>
         public event Action<MouseEvent> MouseDown;
+        /// <summary>
+        /// Called when mouse button has been released 
+        /// </summary>
         public event Action<MouseEvent> MouseUp;
+        /// <summary>
+        /// Called when keyboard key has been clicked
+        /// </summary>
         public event Action<KeyEvent> KeyDown;
+        /// <summary>
+        /// Called when keyboard key has been released
+        /// </summary>
         public event Action<KeyEvent> KeyUp;
+        /// <summary>
+        /// Called when file has been droped on window 
+        /// </summary>
         public event Action<DragDropEvent> DragDrop;
-
+        /// <summary>
+        /// converted a point of window to one on screen
+        /// </summary>
+        /// <param name="p">window point</param>
+        /// <returns>screen point</returns>
         public Point ClientToScreen(Point p)
         {
             Point position = _cachedPosition;
             return new Point(p.X + position.X, p.Y + position.Y);
         }
-
+        /// <summary>
+        /// Sets current Mouse Position
+        /// </summary>
+        /// <param name="position">postion to put mouse in screen space</param>
         public void SetMousePosition(Vector2 position) => SetMousePosition((int)position.X, (int)position.Y);
+        /// <summary>
+        /// Sets current Mouse Position
+        /// </summary>
+        /// <param name="x">X postion to put mouse in screen space</param>
+        /// <param name="y">Y postion to put mouse in screen space</param>
+
         public void SetMousePosition(int x, int y)
         {
             if (_exists)
@@ -280,14 +406,21 @@ namespace Veldrid.Sdl2
                 _currentMouseY = y;
             }
         }
-
+        /// <summary>
+        /// The movement of mouse in this frame
+        /// </summary>
         public Vector2 MouseDelta => _currentMouseDelta;
-
+        /// <summary>
+        /// Defines the close request handler
+        /// </summary>
+        /// <param name="handler">The handler that in which to be used</param>
         public void SetCloseRequestedHandler(Func<bool> handler)
         {
             _closeRequestedHandler = handler;
         }
-
+        /// <summary>
+        /// sends the closing request for the window
+        /// </summary>
         public void Close()
         {
             if (_threadedProcessing)
@@ -368,7 +501,10 @@ namespace Veldrid.Sdl2
         {
             _events.Add(ev);
         }
-
+        /// <summary>
+        /// Prosses input for this frame
+        /// </summary>
+        /// <returns>current frames input</returns>
         public InputSnapshot PumpEvents()
         {
             _currentMouseDelta = new Vector2();
@@ -407,7 +543,10 @@ namespace Veldrid.Sdl2
             }
             _events.Clear();
         }
-
+        /// <summary>
+        /// Prosses input for this frame with eventHandler
+        /// </summary>
+        /// <param name="eventHandler">input event Handler</param>
         public void PumpEvents(SDLEventHandler eventHandler)
         {
             ProcessEvents(eventHandler);
@@ -926,7 +1065,11 @@ namespace Veldrid.Sdl2
                 _currentMouseButtonStates[10], _currentMouseButtonStates[11],
                 _currentMouseButtonStates[12]);
         }
-
+        /// <summary>
+        /// Converts a point on screen to point on window
+        /// </summary>
+        /// <param name="p">point on screen</param>
+        /// <returns>point on window</returns>
         public Point ScreenToClient(Point p)
         {
             Point position = _cachedPosition;
@@ -991,7 +1134,7 @@ namespace Veldrid.Sdl2
 
             public Vector2 MousePosition { get; set; }
 
-            private bool[] _mouseDown = new bool[13];
+            private readonly bool[] _mouseDown = new bool[13];
             public bool[] MouseDown => _mouseDown;
             public float WheelDelta { get; set; }
 
@@ -1053,10 +1196,18 @@ namespace Veldrid.Sdl2
             }
         }
     }
-
+    /// <summary>
+    /// State of the mouse 
+    /// </summary>
     public struct MouseState
     {
+        /// <summary>
+        /// mouse X postion at this state
+        /// </summary>
         public readonly int X;
+        /// <summary>
+        /// mouse Y postion at this state
+        /// </summary>
         public readonly int Y;
 
         private bool _mouseDown0;
@@ -1072,7 +1223,24 @@ namespace Veldrid.Sdl2
         private bool _mouseDown10;
         private bool _mouseDown11;
         private bool _mouseDown12;
-
+        /// <summary>
+        /// Create Mouse State
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="mouse0"></param>
+        /// <param name="mouse1"></param>
+        /// <param name="mouse2"></param>
+        /// <param name="mouse3"></param>
+        /// <param name="mouse4"></param>
+        /// <param name="mouse5"></param>
+        /// <param name="mouse6"></param>
+        /// <param name="mouse7"></param>
+        /// <param name="mouse8"></param>
+        /// <param name="mouse9"></param>
+        /// <param name="mouse10"></param>
+        /// <param name="mouse11"></param>
+        /// <param name="mouse12"></param>
         public MouseState(
             int x, int y,
             bool mouse0, bool mouse1, bool mouse2, bool mouse3, bool mouse4, bool mouse5, bool mouse6,
@@ -1094,7 +1262,11 @@ namespace Veldrid.Sdl2
             _mouseDown11 = mouse11;
             _mouseDown12 = mouse12;
         }
-
+        /// <summary>
+        /// Mouse button down on this state
+        /// </summary>
+        /// <param name="button">button to check</param>
+        /// <returns>if the button is down</returns>
         public bool IsButtonDown(MouseButton button)
         {
             uint index = (uint)button;
@@ -1131,32 +1303,64 @@ namespace Veldrid.Sdl2
             throw new ArgumentOutOfRangeException(nameof(button));
         }
     }
-
+    /// <summary>
+    /// Mouse event date
+    /// </summary>
     public struct MouseWheelEventArgs
     {
+        /// <summary>
+        /// current mouse state
+        /// </summary>
         public MouseState State { get; }
+        /// <summary>
+        /// current mouse wheel movement delta
+        /// </summary>
         public float WheelDelta { get; }
+        /// <summary>
+        /// instantiate Mouse event date
+        /// </summary>
+        /// <param name="mouseState"></param>
+        /// <param name="wheelDelta"></param>
         public MouseWheelEventArgs(MouseState mouseState, float wheelDelta)
         {
             State = mouseState;
             WheelDelta = wheelDelta;
         }
     }
-
+    /// <summary>
+    /// Mouse event with Vector2 pos date
+    /// </summary>
     public struct MouseMoveEventArgs
     {
+        /// <summary>
+        /// current mouse state
+        /// </summary>
         public MouseState State { get; }
+        /// <summary>
+        /// current Mouse Position
+        /// </summary>
         public Vector2 MousePosition { get; }
+        /// <summary>
+        /// instantiate Mouse event date
+        /// </summary>
+        /// <param name="mouseState"></param>
+        /// <param name="mousePosition"></param>
         public MouseMoveEventArgs(MouseState mouseState, Vector2 mousePosition)
         {
             State = mouseState;
             MousePosition = mousePosition;
         }
     }
-
+    /// <summary>
+    /// Value being bufferd
+    /// </summary>
+    /// <typeparam name="T">The buffer type</typeparam>
     [DebuggerDisplay("{DebuggerDisplayString,nq}")]
     public class BufferedValue<T> where T : struct
     {
+        /// <summary>
+        /// Value in the buffer
+        /// </summary>
         public T Value
         {
             get => Current.Value;
@@ -1169,7 +1373,10 @@ namespace Veldrid.Sdl2
 
         private ValueHolder Current = new ValueHolder();
         private ValueHolder Back = new ValueHolder();
-
+        /// <summary>
+        /// Inplicit cast to value from buffer
+        /// </summary>
+        /// <param name="bv">Buffer to get value</param>
         public static implicit operator T(BufferedValue<T> bv) => bv.Value;
 
         private string DebuggerDisplayString => $"{Current.Value}";
@@ -1179,6 +1386,9 @@ namespace Veldrid.Sdl2
             public T Value;
         }
     }
-
+    /// <summary>
+    /// Event delegate
+    /// </summary>
+    /// <param name="ev">Event</param>
     public delegate void SDLEventHandler(ref SDL_Event ev);
 }

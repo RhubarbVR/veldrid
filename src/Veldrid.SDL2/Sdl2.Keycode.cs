@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+using System;
 
 namespace Veldrid.Sdl2
 {
@@ -290,3 +292,4 @@ namespace Veldrid.Sdl2
         Reserved = 0x8000
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
