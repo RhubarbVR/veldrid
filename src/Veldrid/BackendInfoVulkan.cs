@@ -60,11 +60,17 @@ namespace Veldrid
         /// Gets the driver information of the device. May be null.
         /// </summary>
         public string DriverInfo => _gd.DriverInfo;
-
+        /// <summary>
+        /// AvailableInstanceLayers
+        /// </summary>
         public ReadOnlyCollection<string> AvailableInstanceLayers => _instanceLayers.Value;
-
+        /// <summary>
+        /// AvailableInstanceExtensions
+        /// </summary>
         public ReadOnlyCollection<string> AvailableInstanceExtensions => _instanceExtensions;
-
+        /// <summary>
+        /// AvailableDeviceExtensions
+        /// </summary>
         public ReadOnlyCollection<ExtensionProperties> AvailableDeviceExtensions => _deviceExtensions.Value;
 
         /// <summary>
@@ -127,18 +133,32 @@ namespace Veldrid
 
             return new ReadOnlyCollection<ExtensionProperties>(veldridProps);
         }
-
+        /// <summary>
+        /// ExtensionProperties
+        /// </summary>
         public readonly struct ExtensionProperties
         {
+            /// <summary>
+            /// Name of ExtensionProperties
+            /// </summary>
             public readonly string Name;
+            /// <summary>
+            /// SpecVersion of ExtensionProperties
+            /// </summary>
             public readonly uint SpecVersion;
-
+            /// <summary>
+            /// SpecVersion of ExtensionProperties
+            /// </summary>
+            /// <param name="name">The name of the properties.</param>
+            /// <param name="specVersion">The specVersion.</param>
             public ExtensionProperties(string name, uint specVersion)
             {
                 Name = name ?? throw new ArgumentNullException(nameof(name));
                 SpecVersion = specVersion;
             }
-
+            /// <summary>
+            /// ToString
+            /// </summary>
             public override string ToString()
             {
                 return Name;

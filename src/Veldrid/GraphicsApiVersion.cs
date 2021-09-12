@@ -1,17 +1,42 @@
 ﻿
 namespace Veldrid
 {
+    /// <summary>
+    /// Graphics api version info
+    /// </summary>
     public readonly struct GraphicsApiVersion
     {
+        /// <summary>
+        /// Graphics Unknown state static value
+        /// </summary>
         public static GraphicsApiVersion Unknown => default;
-
+        /// <summary>
+        /// Major Version Number
+        /// </summary>
         public int Major { get; }
+        /// <summary>
+        /// Minor Version Number
+        /// </summary>
         public int Minor { get; }
+        /// <summary>
+        /// Subminor Version Number
+        /// </summary>
         public int Subminor { get; }
+        /// <summary>
+        /// Patch Version Number
+        /// </summary>
         public int Patch { get; }
-
+        /// <summary>
+        /// False if all of the vershion numbers are 0
+        /// </summary>
         public bool IsKnown => Major != 0 && Minor != 0 && Subminor != 0 && Patch != 0;
-
+        /// <summary>
+        /// Graphics Api Version
+        /// </summary>
+        /// <param name="major">Major Version Number</param>
+        /// <param name="minor">Minor Version Number</param>
+        /// <param name="subminor">Subminor Version Number</param>
+        /// <param name="patch">Patch Version Number</param>
         public GraphicsApiVersion(int major, int minor, int subminor, int patch)
         {
             Major = major;
@@ -19,7 +44,10 @@ namespace Veldrid
             Subminor = subminor;
             Patch = patch;
         }
-
+        /// <summary>
+        /// Creates vershion string as {Major}.{Minor}.{Subminor}.{Patch}
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"{Major}.{Minor}.{Subminor}.{Patch}";

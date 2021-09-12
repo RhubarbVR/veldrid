@@ -21,9 +21,13 @@ namespace Veldrid
             _gd = gd;
             _featureSet = new ReadOnlyCollection<MTLFeatureSet>(_gd.MetalFeatures.ToArray());
         }
-
+        /// <summary>
+        /// Current FeatureSet
+        /// </summary>
         public ReadOnlyCollection<MTLFeatureSet> FeatureSet => _featureSet;
-
+        /// <summary>
+        /// MaxFeatureSet
+        /// </summary>
         public MTLFeatureSet MaxFeatureSet => _gd.MetalFeatures.MaxFeatureSet;
     }
 }
